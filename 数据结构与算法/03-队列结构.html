@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>队列封装</title>
+</head>
+<body>
+    <script>
+        function Queue() {
+            this.items = []
+
+            //元素加入队列
+            Queue.prototype.enqueue = function(element) {
+                this.items.push(element)
+            }
+            //从队列中移除元素
+            Queue.prototype.dequeue = function() {
+                return this.items.shift()
+            }
+            //返回队列第一项
+            Queue.prototype.front = function() {
+                return this.items[0]
+            }
+            //判断是否为空
+            Queue.prototype.isEmpty = function() {
+                return this.items.length == 0
+            }
+            //获取队列元素个数
+            Queue.prototype.size = function() {
+                return this.items.length
+            }
+            //将队列内容转成字符串
+            Queue.prototype.toString = function() {
+                return this.items.join(' ')
+            }
+        }
+
+        var q = new Queue()
+        q.enqueue(1)
+        q.enqueue(2)
+        q.enqueue(3)
+        q.enqueue(4)
+        console.log('队列加元素:', q)
+
+        q.dequeue()
+        console.log('移除队列元素:', q)
+
+        console.log('返回队列第一项:', q.front())
+
+        console.log('判断是否为空:', q.isEmpty())
+
+        console.log('获取队列个数:', q.size())
+
+        console.log('将队列元素转成字符串:', q.toString())
+
+        console.log('**************************************************************')
+
+        //面试题：击鼓传花
+        function passGame(nameList, num) {
+            var queue = new Queue()
+            for(let i = 0; i < nameList.length; i++) {
+                queue.enqueue(nameList[i])
+            }
+            while(queue.size() > 1) {
+                for(let k = 0; k < num - 1; k++) {
+                    queue.enqueue(queue.dequeue())
+                }
+                queue.dequeue()
+            }
+            
+            var winner = queue.front()
+            console.log("赢家：", winner)
+            console.log('赢家在原数组下标：', nameList.indexOf(winner))
+        }
+
+        var gameName = ['詹姆斯', '科比', '乔丹', '库里', '杜兰特', '伦纳德', '戴维斯', '乔治']
+        passGame(gameName, 4)
+    </script>
+</body>
+</html>
